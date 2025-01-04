@@ -62,4 +62,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // TensorFlow Lite for Google Services
+    implementation(libs.play.services.tflite)
+    implementation(libs.play.services.tflite.support)
 }

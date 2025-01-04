@@ -11,6 +11,7 @@ composeBom = "2024.04.01"
 hilt-android = "2.51.1"
 hilt-navigation-compose = "1.2.0"
 play-services-tflite = "16.1.0"
+coil = "3.0.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +35,10 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 ## play-services-tflite
 play-services-tflite = { group = "com.google.android.gms", name = "play-services-tflite-java", version.ref = "play-services-tflite" }
 play-services-tflite-support = { group = "com.google.android.gms", name = "play-services-tflite-support", version.ref = "play-services-tflite" }
+
+## coil
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

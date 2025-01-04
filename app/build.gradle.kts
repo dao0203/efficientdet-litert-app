@@ -65,4 +65,8 @@ dependencies {
     // TensorFlow Lite for Google Services
     implementation(libs.play.services.tflite)
     implementation(libs.play.services.tflite.support)
+
+    // Coil Compose
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }

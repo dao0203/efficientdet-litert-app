@@ -2,6 +2,7 @@ package com.example.gemma2_litert_app
 
 import android.content.Context
 import android.graphics.Bitmap
+import com.example.gemma2_litert_app.domain.DetectionResult
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,7 +20,7 @@ class ObjectDetectorHelper @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    suspend fun runInference(input: Bitmap): Any {
+    suspend fun runInference(input: Bitmap): DetectionResult {
         return withContext(Dispatchers.IO) {
             val interpreterOption = InterpreterApi
                 .Options()
@@ -58,7 +59,12 @@ class ObjectDetectorHelper @Inject constructor(
             interpreter.runForMultipleInputsOutputs(arrayOf(processedImage.buffer), outputBuffer)
             println("location: ${location.array()[0]}")
             println("category: ${category.array()[0]}")
-
+            return@withContext DetectionResult(
+                location = location.array(),
+                category = category.array(),
+                score = score.array(),
+                numberOfDetection = numberOfDetection.array()
+            )
         }
     }
 }

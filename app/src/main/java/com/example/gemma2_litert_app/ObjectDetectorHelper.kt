@@ -3,6 +3,7 @@ package com.example.gemma2_litert_app
 import android.content.Context
 import android.graphics.Bitmap
 import com.example.gemma2_litert_app.domain.DetectionResult
+import com.example.gemma2_litert_app.domain.toBoundingBoxes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -60,10 +61,10 @@ class ObjectDetectorHelper @Inject constructor(
             println("location: ${location.array()[0]}")
             println("category: ${category.array()[0]}")
             return@withContext DetectionResult(
-                location = location.array(),
+                locations = location.toBoundingBoxes(),
                 category = category.array(),
                 score = score.array(),
-                numberOfDetection = numberOfDetection.array()
+                numberOfDetection = numberOfDetection.array(),
             )
         }
     }

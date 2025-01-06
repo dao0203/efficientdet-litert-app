@@ -24,16 +24,3 @@ fun FloatBuffer.toBoundingBoxes(): List<BoundingBox> {
     }
     return boxes
 }
-
-fun BoundingBox.scale(
-    yScale: Float,
-    xScale: Float,
-): BoundingBox {
-    return BoundingBox(
-        yMin = yMin * yScale,
-        xMin = xMin * xScale,
-        yMax = yMax * yScale,
-        xMax = xMax * xScale,
-    )
-}
-

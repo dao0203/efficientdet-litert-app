@@ -33,10 +33,9 @@ class ObjectDetectorHelper @Inject constructor(
             val interpreter = InterpreterApi.create(file, interpreterOption)
 
             // 出力用のバッファを用意
-            val maxDetections = 25
-            val location = FloatBuffer.allocate(maxDetections * 4)
-            val category = FloatBuffer.allocate(maxDetections)
-            val score = FloatBuffer.allocate(maxDetections)
+            val location = FloatBuffer.allocate(MAX_DETECTIONS * 4)
+            val category = FloatBuffer.allocate(MAX_DETECTIONS)
+            val score = FloatBuffer.allocate(MAX_DETECTIONS)
             val numberOfDetection = FloatBuffer.allocate(1)
 
             val outputBuffer = mapOf(
@@ -58,8 +57,6 @@ class ObjectDetectorHelper @Inject constructor(
             // 前処理を行った画像を取得
             val processedImage = imageProcessor.process(tensorImage)
             interpreter.runForMultipleInputsOutputs(arrayOf(processedImage.buffer), outputBuffer)
-            println("location: ${location.array()[0]}")
-            println("category: ${category.array()[0]}")
             return@withContext DetectionResult(
                 locations = location.toBoundingBoxes(),
                 category = category.array(),
@@ -67,5 +64,9 @@ class ObjectDetectorHelper @Inject constructor(
                 numberOfDetection = numberOfDetection.array(),
             )
         }
+    }
+
+    companion object {
+        private const val MAX_DETECTIONS = 25
     }
 }

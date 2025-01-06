@@ -16,18 +16,15 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val objectDetectorHelper: ObjectDetectorHelper
 ) : ViewModel() {
-    val _boundingBoxState = MutableStateFlow(emptyList<BoundingBox>())
+    private val _boundingBoxState = MutableStateFlow(emptyList<BoundingBox>())
     val boundingBoxState: StateFlow<List<BoundingBox>> = _boundingBoxState.asStateFlow()
     fun runInference(data: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = objectDetectorHelper.runInference(data)
             // score > 0.5のものだけを抽出
-            val filteredResult = result.copy(
-                locations = result.locations.filterIndexed { index, _ ->
-                    result.score[index] > 0.5
-                }
-            )
-            _boundingBoxState.value = filteredResult.locations
+            _boundingBoxState.value = result.locations.filterIndexed { index, _ ->
+                result.score[index] > 0.5
+            }
         }
     }
 }

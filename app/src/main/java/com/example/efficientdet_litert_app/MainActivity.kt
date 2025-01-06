@@ -18,8 +18,13 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -63,9 +68,9 @@ private fun MainScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("Hello, Gemma2litertapp!")
+            Text("Hello LiteRT!")
             Spacer(Modifier.height(16.dp))
-            BoxWithOutlinedRectangles(
+            BoxWithScaledOutlinedRectangles(
                 boxes = boundingBoxState.value,
             ) {
                 Image(
@@ -87,21 +92,27 @@ private fun MainScreen(
 }
 
 @Composable
-private fun BoxWithOutlinedRectangles(
+private fun BoxWithScaledOutlinedRectangles(
     modifier: Modifier = Modifier,
     boxes: List<BoundingBox>,
     content: @Composable () -> Unit,
 ) {
+    var xScale by remember { mutableIntStateOf(0) }
+    var yScale by remember { mutableIntStateOf(0) }
     Box(
         modifier = modifier
+            .onGloballyPositioned {
+                yScale = it.size.height
+                xScale = it.size.width
+            }
     ) {
         content()
         boxes.forEach { box ->
             OutlinedRectangle(
-                xMin = box.xMin,
-                yMin = box.yMin,
-                xMax = box.xMax,
-                yMax = box.yMax,
+                xMin = box.xMin * xScale,
+                yMin = box.yMin * yScale,
+                xMax = box.xMax * xScale,
+                yMax = box.yMax * yScale,
             )
         }
     }

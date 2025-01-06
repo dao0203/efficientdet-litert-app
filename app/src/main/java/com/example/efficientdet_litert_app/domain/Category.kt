@@ -1,5 +1,7 @@
 package com.example.efficientdet_litert_app.domain
 
+import java.nio.FloatBuffer
+
 enum class Category(val id: Int, val label: String) {
     PERSON(1, "person"),
     BICYCLE(2, "bicycle"),
@@ -89,4 +91,12 @@ enum class Category(val id: Int, val label: String) {
             return map[id]
         }
     }
+}
+
+fun FloatBuffer.toCategories(): List<Category?> {
+    val categories = mutableListOf<Category?>()
+    for (i in 0 until limit()) {
+        categories.add(Category.fromId(get(i).toInt()))
+    }
+    return categories
 }

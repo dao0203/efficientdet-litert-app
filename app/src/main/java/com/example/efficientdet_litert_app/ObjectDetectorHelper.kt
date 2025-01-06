@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.example.efficientdet_litert_app.domain.DetectionResult
 import com.example.efficientdet_litert_app.domain.toBoundingBoxes
+import com.example.efficientdet_litert_app.domain.toCategories
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,14 +24,6 @@ class ObjectDetectorHelper @Inject constructor(
 
     suspend fun runInference(input: Bitmap): DetectionResult {
         return withContext(Dispatchers.IO) {
-            val interpreterOption = InterpreterApi
-                .Options()
-                .setRuntime(TfLiteRuntime.FROM_SYSTEM_ONLY)
-            val file = FileUtil.loadMappedFile(
-                context,
-                "model/EfficientDet-Lite0.tflite"
-            )
-            val interpreter = InterpreterApi.create(file, interpreterOption)
 
             // 出力用のバッファを用意
             val location = FloatBuffer.allocate(MAX_DETECTIONS * 4)
@@ -56,10 +49,25 @@ class ObjectDetectorHelper @Inject constructor(
                 .build()
             // 前処理を行った画像を取得
             val processedImage = imageProcessor.process(tensorImage)
+
+            val interpreterOption = InterpreterApi
+                .Options()
+                .setRuntime(TfLiteRuntime.FROM_SYSTEM_ONLY)
+            val file = FileUtil.loadMappedFile(
+                context,
+                "model/EfficientDet-Lite0.tflite"
+            )
+            val interpreter = InterpreterApi.create(file, interpreterOption)
+
+            // 推論を実行
             interpreter.runForMultipleInputsOutputs(arrayOf(processedImage.buffer), outputBuffer)
+            println("location: ${location.array().contentToString()} (size: ${location.array().size})")
+            println("category: ${category.array().contentToString()} (size: ${category.array().size})")
+            println("score: ${score.array().contentToString()} (size: ${score.array().size})")
+            println("numberOfDetection: ${numberOfDetection.array().contentToString()} (size: ${numberOfDetection.array().size})")
             return@withContext DetectionResult(
                 locations = location.toBoundingBoxes(),
-                category = category.array(),
+                categories = category.toCategories(),
                 score = score.array(),
                 numberOfDetection = numberOfDetection.array(),
             )

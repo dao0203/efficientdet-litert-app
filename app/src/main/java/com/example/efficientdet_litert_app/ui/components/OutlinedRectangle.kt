@@ -1,7 +1,6 @@
 package com.example.efficientdet_litert_app.ui.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -17,12 +16,9 @@ fun OutlinedRectangle(
     yMax: Float,
     color: Color = Color.Red,
     strokeWeight: Float = 4f,
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
 ) {
-    Canvas(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
+    Canvas(modifier = modifier) {
         drawRect(
             topLeft = Offset(xMin, yMin),
             size = Size(

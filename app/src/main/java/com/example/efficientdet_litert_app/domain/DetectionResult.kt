@@ -1,4 +1,4 @@
-package com.example.gemma2_litert_app.domain
+package com.example.efficientdet_litert_app.domain
 
 data class DetectionResult(
     val locations: List<BoundingBox>,

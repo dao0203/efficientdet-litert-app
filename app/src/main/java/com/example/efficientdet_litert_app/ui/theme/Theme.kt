@@ -1,6 +1,5 @@
-package com.example.gemma2_litert_app.ui.theme
+package com.example.efficientdet_litert_app.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

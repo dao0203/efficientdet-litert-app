@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.gemma2_litert_app"
+    namespace = "com.example.efficentdet_litert_app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.gemma2_litert_app"
+        applicationId = "com.example.efficientdet_litert_app"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

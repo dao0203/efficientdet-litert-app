@@ -1,4 +1,4 @@
-package com.example.gemma2_litert_app
+package com.example.efficientdet_litert_app
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

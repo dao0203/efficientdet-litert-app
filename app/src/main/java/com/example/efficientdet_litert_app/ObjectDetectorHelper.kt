@@ -1,9 +1,9 @@
-package com.example.gemma2_litert_app
+package com.example.efficientdet_litert_app
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.example.gemma2_litert_app.domain.DetectionResult
-import com.example.gemma2_litert_app.domain.toBoundingBoxes
+import com.example.efficientdet_litert_app.domain.DetectionResult
+import com.example.efficientdet_litert_app.domain.toBoundingBoxes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

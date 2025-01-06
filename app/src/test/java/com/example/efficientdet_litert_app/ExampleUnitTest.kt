@@ -1,4 +1,4 @@
-package com.example.gemma2_litert_app
+package com.example.efficientdet_litert_app
 
 import org.junit.Test
 

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "gemma2-litert-app"
+rootProject.name = "efficientdet-litert-app"
 include(":app")
  

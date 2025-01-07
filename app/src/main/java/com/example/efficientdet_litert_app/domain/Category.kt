@@ -88,7 +88,7 @@ enum class Category(val id: Int, val label: String) {
         private val map = entries.associateBy(Category::id)
 
         fun fromId(id: Int): Category? {
-            return map[id]
+            return map[id + 1]
         }
     }
 }

@@ -24,3 +24,18 @@ fun FloatBuffer.toBoundingBoxes(): List<BoundingBox> {
     }
     return boxes
 }
+
+fun FloatArray.toBoundingBoxes(): List<BoundingBox> {
+    val boxes = mutableListOf<BoundingBox>()
+    for (i in indices step 4) {
+        boxes.add(
+            BoundingBox(
+                yMin = this[i],
+                xMin = this[i + 1],
+                yMax = this[i + 2],
+                xMax = this[i + 3],
+            )
+        )
+    }
+    return boxes
+}

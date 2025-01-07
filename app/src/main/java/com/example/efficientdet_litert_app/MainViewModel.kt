@@ -2,8 +2,9 @@ package com.example.efficientdet_litert_app
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
-import com.example.efficientdet_litert_app.domain.BoundingBox
+import com.example.efficientdet_litert_app.domain.Category
 import com.example.efficientdet_litert_app.domain.toBoundingBoxes
+import com.example.efficientdet_litert_app.ui.model.InferenceResultUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,15 +15,22 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val objectDetectorHelper: ObjectDetectorHelper
 ) : ViewModel() {
-    private val _boundingBoxState = MutableStateFlow(emptyList<BoundingBox>())
-    val boundingBoxState: StateFlow<List<BoundingBox>> = _boundingBoxState.asStateFlow()
+    private val _inferenceResultUiState = MutableStateFlow(emptyList<InferenceResultUiModel>())
+    val inferenceResultUiState: StateFlow<List<InferenceResultUiModel>> =
+        _inferenceResultUiState.asStateFlow()
+
     fun runInference(data: Bitmap) {
         val result = objectDetectorHelper.runInference(data)
-        // score > 0.5のものだけを抽出
-        _boundingBoxState.value = result.location.array().toBoundingBoxes()
-            .zip(result.score.array().toList())
-            .filter { it.second > 0.8 }
-            .map { it.first }
+        _inferenceResultUiState.value = result.location
+            .toBoundingBoxes()
+            .filterIndexed { index, _ -> result.score[index] > 0.5 }
+            .mapIndexed { index, boundingBox ->
+                InferenceResultUiModel(
+                    boundingBox = boundingBox,
+                    category = Category.fromId(result.category[index].toInt()),
+                    score = result.score[index]
+                )
+            }
 
     }
 }

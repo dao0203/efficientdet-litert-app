@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.example.efficientdet_litert_app.domain.DetectionResult
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.InterpreterApi
 import org.tensorflow.lite.InterpreterApi.Options.TfLiteRuntime
@@ -60,8 +58,8 @@ class ObjectDetectorHelper @Inject constructor(
             // 推論を実行
             interpreter.runForMultipleInputsOutputs(arrayOf(processedImage.buffer), outputBuffer)
             return DetectionResult(
-                locations = location,
-                categories = category,
+                location = location,
+                category = category,
                 score = score,
                 numberOfDetection = numberOfDetection,
             )

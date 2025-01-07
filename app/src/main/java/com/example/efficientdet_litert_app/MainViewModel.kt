@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(
     fun runInference(data: Bitmap) {
         val result = objectDetectorHelper.runInference(data)
         // score > 0.5のものだけを抽出
-        _boundingBoxState.value = result.locations.array().toBoundingBoxes()
+        _boundingBoxState.value = result.location.array().toBoundingBoxes()
             .zip(result.score.array().toList())
             .filter { it.second > 0.8 }
             .map { it.first }
